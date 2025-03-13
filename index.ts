@@ -40,7 +40,7 @@ async function main() {
 
   const updatedAt = new Date(responseBody.data!.pools[0].updatedAt);
   const lastNotification = notifications.length > 0 ? notifications[0] : 0;
-  if( now.getTime() - updatedAt.getTime() < 60_000 
+  if( now.getTime() - updatedAt.getTime() > 60_000 * 5 
      && now.getTime() - lastNotification > NOTIFICATION_INTERVAL
     ) {
 
@@ -51,7 +51,7 @@ async function main() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             chat_id: process.env.SISSONJ_CHAT_ID,
-            text: `*[ALERT]: Last Pool Update More than 60 seconds ago*`,
+            text: `*[ALERT]: Last Pool Update More than 5 minutes ago*`,
             parse_mode: "Markdown"
         })
     });
